@@ -23,16 +23,14 @@
 
 <div class="container">
   <div class="center">
-      <button class="boto-generar" onclick="fireWebHook('27ce4dfb5f5543e8bcaad63dd3ea1d8b');">Renderitzar LaTeX</button>   <!-- Passem com a primer ID el de la pàgina 'Renderitzar Latex ChatGPT' -->
+      <button class="boto-generar" onclick="fireWebHook('1d572e8225e1803abfc8c49ffd9fa9ee');">Generar codi TeX</button>   <!-- Passem com a primer ID el de la pàgina -->
   </div>
 </div>
 
 <script>
     function fireWebHook(id) {
         const url = `https://hook.eu2.make.com/mzvdygrw1377sm2ol18r7v82p5jj5jtc?id=${id}`; // URL del WebHooks de Make amb l'ID (pàgina) passat com a paràmetre
-        // console.log("URL:", url);
-        // console.log("Activating webhook with ID:", id);
-        //
+       
         // Activem (fetch) el webhook
         fetch(url)
             .then(response => response.text())  // Response body com a plain text
@@ -43,9 +41,9 @@
                     //console.log('Nou ID:', data);
                     //
                     // Cridem recursivament el WehHook amb el nou ID (del bloc fill)
-                    fireWebHook(data);
+                    // fireWebHook(data);
                 } else {
-                    console.log('O no sha rebut cap nou ID o resposta invàlida:', data);
+                    // console.log('O no sha rebut cap nou ID o resposta invàlida:', data);
                 }
             })
             .catch(error => {
