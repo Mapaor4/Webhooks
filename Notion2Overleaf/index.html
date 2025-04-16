@@ -29,31 +29,75 @@
 
 <script>
     function fireWebHook(id, is_children, is_grandchildren) {
-        const url = `https://hook.eu2.make.com/6hwcw9rj71ygoi4qt3zuqacgjhor5q9v?id=${id}&is_children=${is_children}&is_grandchildren=${is_grandchildren}`; // URL del WebHooks de Make amb l'ID (pàgina) passat com a paràmetre
-        console.log("url:", url);
-        // Activem (fetch) el webhook
-        fetch(url)
-            .then(response => response.text())  // Response body com a plain text
-            .then(data => {
-                console.log('Response body:', data);  // Ho passem per consola per comprovar
-                // Mirem si la resposta és un ID vàlid (només conté números i lletres en minúscula)
-                if (/^[a-z0-9]+$/.test(data)) {
-                    console.log('Nou ID:', data);
-                    //
-                    // Cridem recursivament el WehHook amb el nou ID (del bloc fill)
-                    if (is_children === true) {
-                        fireWebHook(data, true, true);
-                    } else{
-                        fireWebHook(data, true, false);
-                    }
+    const url = `https://hook.eu2.make.com/6hwcw9rj71ygoi4qt3zuqacgjhor5q9v?id=${id}&is_children=${is_children}&is_grandchildren=${is_grandchildren}`;
+    const url2 = `https://hook.eu2.make.com/14a8cad6cce8n30dm44nkgiyw9ks8hvj`;
+    
+    console.log("url:", url);
+    
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            console.log('Response body:', data);
+
+            if (data === "Accepted") {
+                console.log("Resposta 'Accepted' rebuda. Fent fetch a url2...");
+                fetch(url2)
+                    .then(res => res.text())
+                    .then(result => console.log('Resposta de url2:', result))
+                    .catch(err => console.error('Error amb fetch a url2:', err));
+                return; // Sortim per evitar seguir amb el codi següent
+            }
+
+            if (/^[a-z0-9]+$/.test(data)) {
+                console.log('Nou ID:', data);
+                if (is_children === true) {
+                    fireWebHook(data, true, true);
                 } else {
-                    console.log('O no sha rebut cap nou ID o resposta invàlida:', data);
+                    fireWebHook(data, true, false);
                 }
-            })
-            .catch(error => {
-                console.error('Error:', error.message);  // Mostrem l'error per consola
-            });
-    }
+            } else {
+                console.log('O no s\'ha rebut cap nou ID o resposta invàlida:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error.message);
+        });
+}
+function fireWebHook(id, is_children, is_grandchildren) {
+    const url = `https://hook.eu2.make.com/6hwcw9rj71ygoi4qt3zuqacgjhor5q9v?id=${id}&is_children=${is_children}&is_grandchildren=${is_grandchildren}`;
+    const url2 = `https://hook.eu2.make.com/14a8cad6cce8n30dm44nkgiyw9ks8hvj`;
+    
+    console.log("url:", url);
+    
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            console.log('Response body:', data);
+
+            if (data === "Accepted") {
+                console.log("Resposta 'Accepted' rebuda. Fent fetch a url2...");
+                fetch(url2)
+                    .then(res => res.text())
+                    .then(result => console.log('Resposta de url2:', result))
+                    .catch(err => console.error('Error amb fetch a url2:', err));
+                return; // Sortim per evitar seguir amb el codi següent
+            }
+
+            if (/^[a-z0-9]+$/.test(data)) {
+                console.log('Nou ID:', data);
+                if (is_children === true) {
+                    fireWebHook(data, true, true);
+                } else {
+                    fireWebHook(data, true, false);
+                }
+            } else {
+                console.log('O no s\'ha rebut cap nou ID o resposta invàlida:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error.message);
+        });
+}
 </script>
 
 </body>
