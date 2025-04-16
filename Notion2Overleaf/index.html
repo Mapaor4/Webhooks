@@ -28,8 +28,8 @@
 </div>
 
 <script>
-    function fireWebHook(id, is_children) {
-        const url = `https://hook.eu2.make.com/6hwcw9rj71ygoi4qt3zuqacgjhor5q9v?id=${id}&is_children=${is_children}`; // URL del WebHooks de Make amb l'ID (pàgina) passat com a paràmetre
+    function fireWebHook(id, is_children, is_grandchildren) {
+        const url = `https://hook.eu2.make.com/6hwcw9rj71ygoi4qt3zuqacgjhor5q9v?id=${id}&is_children=${is_children}&is_grandchildren=${is_grandchildren}`; // URL del WebHooks de Make amb l'ID (pàgina) passat com a paràmetre
         console.log("url:", url);
         // Activem (fetch) el webhook
         fetch(url)
@@ -41,7 +41,11 @@
                     console.log('Nou ID:', data);
                     //
                     // Cridem recursivament el WehHook amb el nou ID (del bloc fill)
-                    fireWebHook(data, true);
+                    if (is_children === true) {
+                        fireWebHook(data, true, true);
+                    } else{
+                        fireWebHook(data, true, false);
+                    }
                 } else {
                     console.log('O no sha rebut cap nou ID o resposta invàlida:', data);
                 }
