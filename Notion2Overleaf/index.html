@@ -23,13 +23,13 @@
 
 <div class="container">
   <div class="center">
-      <button class="boto-generar" onclick="fireWebHook('1d572e8225e1803abfc8c49ffd9fa9ee');">Generar codi TeX</button>   <!-- Passem com a primer ID el de la pàgina -->
+      <button class="boto-generar" onclick="fireWebHook('1d572e8225e1803abfc8c49ffd9fa9ee','false');">Generar codi TeX</button>   <!-- Passem com a primer ID el de la pàgina -->
   </div>
 </div>
 
 <script>
-    function fireWebHook(id) {
-        const url = `https://hook.eu2.make.com/6hwcw9rj71ygoi4qt3zuqacgjhor5q9v?id=${id}`; // URL del WebHooks de Make amb l'ID (pàgina) passat com a paràmetre
+    function fireWebHook(id, is_children) {
+        const url = `https://hook.eu2.make.com/6hwcw9rj71ygoi4qt3zuqacgjhor5q9v?id=${id}&is_children=${is_children}`; // URL del WebHooks de Make amb l'ID (pàgina) passat com a paràmetre
        
         // Activem (fetch) el webhook
         fetch(url)
@@ -41,7 +41,7 @@
                     //console.log('Nou ID:', data);
                     //
                     // Cridem recursivament el WehHook amb el nou ID (del bloc fill)
-                    fireWebHook(data);
+                    fireWebHook(data, true);
                 } else {
                     console.log('O no sha rebut cap nou ID o resposta invàlida:', data);
                 }
