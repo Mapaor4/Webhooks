@@ -38,7 +38,7 @@
                 console.log('Response body:', data);  // Ho passem per consola per comprovar
                 // Mirem si la resposta és un ID vàlid (només conté números i lletres en minúscula)
                 if (/^[a-z0-9]+$/.test(data)) {
-                    //console.log('Nou ID:', data);
+                    console.log('Nou ID:', data);
                     //
                     // Cridem recursivament el WehHook amb el nou ID (del bloc fill)
                     fireWebHook(data, true);
