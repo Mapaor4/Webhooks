@@ -41,9 +41,9 @@
                     //console.log('Nou ID:', data);
                     //
                     // Cridem recursivament el WehHook amb el nou ID (del bloc fill)
-                    // fireWebHook(data);
+                    fireWebHook(data);
                 } else {
-                    // console.log('O no sha rebut cap nou ID o resposta invàlida:', data);
+                    console.log('O no sha rebut cap nou ID o resposta invàlida:', data);
                 }
             })
             .catch(error => {
