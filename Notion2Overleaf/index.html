@@ -5,99 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <body>
 
-    <style>
-          .container {
-            height: 40px;
-            position: relative;
-          }
-          
-          .center { /*Centrem el botó (el contenidor div) */
-            margin: 0;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%); 
-          }
-     </style>
+<style>
+      
+ </style>
 
 <div class="container">
-  <div class="center">
-      <button class="boto-generar" onclick="fireWebHook('1d572e8225e1803abfc8c49ffd9fa9ee','false','false');">Generar codi TeX</button>   <!-- Passem com a primer ID el de la pàgina -->
-  </div>
 </div>
 
 <script>
-    function fireWebHook(id, is_children, is_grandchildren) {
-    const url = `https://hook.eu2.make.com/6hwcw9rj71ygoi4qt3zuqacgjhor5q9v?id=${id}&is_children=${is_children}&is_grandchildren=${is_grandchildren}`;
-    const url2 = `https://hook.eu2.make.com/14a8cad6cce8n30dm44nkgiyw9ks8hvj`;
-    
-    console.log("url:", url);
-    
-    fetch(url)
-        .then(response => response.text())
-        .then(data => {
-            console.log('Response body:', data);
-
-            if (data === "Accepted") {
-                console.log("Resposta 'Accepted' rebuda. Fent fetch a url2...");
-                fetch(url2)
-                    .then(res => res.text())
-                    .then(result => console.log('Resposta de url2:', result))
-                    .catch(err => console.error('Error amb fetch a url2:', err));
-                return; // Sortim per evitar seguir amb el codi següent
-            }
-
-            if (/^[a-z0-9]+$/.test(data)) {
-                console.log('Nou ID:', data);
-                if (is_children === true) {
-                    fireWebHook(data, true, true);
-                } else {
-                    fireWebHook(data, true, false);
-                }
-            } else {
-                console.log('O no s\'ha rebut cap nou ID o resposta invàlida:', data);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error.message);
-        });
-}
-function fireWebHook(id, is_children, is_grandchildren) {
-    const url = `https://hook.eu2.make.com/6hwcw9rj71ygoi4qt3zuqacgjhor5q9v?id=${id}&is_children=${is_children}&is_grandchildren=${is_grandchildren}`;
-    const url2 = `https://hook.eu2.make.com/14a8cad6cce8n30dm44nkgiyw9ks8hvj`;
-    
-    console.log("url:", url);
-    
-    fetch(url)
-        .then(response => response.text())
-        .then(data => {
-            console.log('Response body:', data);
-
-            if (data === "Accepted") {
-                console.log("Resposta 'Accepted' rebuda. Fent fetch a url2...");
-                fetch(url2)
-                    .then(res => res.text())
-                    .then(result => console.log('Resposta de url2:', result))
-                    .catch(err => console.error('Error amb fetch a url2:', err));
-                return; // Sortim per evitar seguir amb el codi següent
-            }
-
-            if (/^[a-z0-9]+$/.test(data)) {
-                console.log('Nou ID:', data);
-                if (is_children === true) {
-                    fireWebHook(data, true, true);
-                } else {
-                    fireWebHook(data, true, false);
-                }
-            } else {
-                console.log('O no s\'ha rebut cap nou ID o resposta invàlida:', data);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error.message);
-        });
-}
+   // Utilitzar ArmCharts
 </script>
 
 </body>
