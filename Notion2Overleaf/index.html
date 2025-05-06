@@ -1,96 +1,103 @@
 <!DOCTYPE html>
-<html lang="ca">
-<head>
-  <meta charset="UTF-8">
-  <title>Votacions Premi del Públic LENDEMÀ21</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Incloure les llibreries d'AmCharts -->
-  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-  <script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
-  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-  <style>
-    #chartdiv {
-      width: 100%;
-      height: 500px;
-    }
-  </style>
-</head>
+<html>
+<meta charset="UTF-8">
+<title>Disparar Webhook</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <body>
 
-<div id="chartdiv"></div>
+    <style>
+          .container {
+            height: 40px;
+            position: relative;
+          }
+          
+          .center { /*Centrem el botó (el contenidor div) */
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%); 
+          }
+     </style>
+
+<div class="container">
+  <div class="center">
+      <button class="boto-generar" onclick="fireWebHook('1d572e8225e1803abfc8c49ffd9fa9ee','false','false');">Generar codi TeX</button>   <!-- Passem com a primer ID el de la pàgina -->
+  </div>
+</div>
 
 <script>
-  // Inicialització del gràfic amb dades fictícies
-  am5.ready(function() {
-    var root = am5.Root.new("chartdiv");
+    function fireWebHook(id, is_children, is_grandchildren) {
+    const url = `https://hook.eu2.make.com/6hwcw9rj71ygoi4qt3zuqacgjhor5q9v?id=${id}&is_children=${is_children}&is_grandchildren=${is_grandchildren}`;
+    const url2 = `https://hook.eu2.make.com/14a8cad6cce8n30dm44nkgiyw9ks8hvj`;
+    
+    console.log("url:", url);
+    
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            console.log('Response body:', data);
 
-    root.setThemes([
-      am5themes_Animated.new(root)
-    ]);
+            if (data === "Accepted") {
+                console.log("Resposta 'Accepted' rebuda. Fent fetch a url2...");
+                fetch(url2)
+                    .then(res => res.text())
+                    .then(result => console.log('Resposta de url2:', result))
+                    .catch(err => console.error('Error amb fetch a url2:', err));
+                return; // Sortim per evitar seguir amb el codi següent
+            }
 
-    var chart = root.container.children.push(
-      am5xy.XYChart.new(root, {
-        panX: false,
-        panY: false,
-        wheelX: "none",
-        wheelY: "none"
-      })
-    );
-
-    // Definició de les dades inicials
-    var data = [
-      { category: "Opció A", value: 0, image: "https://via.placeholder.com/50" },
-      { category: "Opció B", value: 0, image: "https://via.placeholder.com/50" },
-      { category: "Opció C", value: 0, image: "https://via.placeholder.com/50" }
-    ];
-
-    // Eixos
-    var xAxis = chart.xAxes.push(
-      am5xy.CategoryAxis.new(root, {
-        categoryField: "category",
-        renderer: am5xy.AxisRendererX.new(root, {})
-      })
-    );
-    xAxis.data.setAll(data);
-
-    var yAxis = chart.yAxes.push(
-      am5xy.ValueAxis.new(root, {
-        renderer: am5xy.AxisRendererY.new(root, {})
-      })
-    );
-
-    // Sèrie
-    var series = chart.series.push(
-      am5xy.ColumnSeries.new(root, {
-        name: "Vots",
-        xAxis: xAxis,
-        yAxis: yAxis,
-        valueYField: "value",
-        categoryXField: "category"
-      })
-    );
-    series.data.setAll(data);
-
-    // Afegir imatges a sobre de les columnes
-    series.bullets.push(function(root, series, dataItem) {
-      return am5.Bullet.new(root, {
-        sprite: am5.Picture.new(root, {
-          width: 50,
-          height: 50,
-          centerX: am5.percent(50),
-          centerY: am5.percent(100),
-          y: -10,
-          src: dataItem.dataContext.image
+            if (/^[a-z0-9]+$/.test(data)) {
+                console.log('Nou ID:', data);
+                if (is_children === true) {
+                    fireWebHook(data, true, true);
+                } else {
+                    fireWebHook(data, true, false);
+                }
+            } else {
+                console.log('O no s\'ha rebut cap nou ID o resposta invàlida:', data);
+            }
         })
-      });
-    });
+        .catch(error => {
+            console.error('Error:', error.message);
+        });
+}
+function fireWebHook(id, is_children, is_grandchildren) {
+    const url = `https://hook.eu2.make.com/6hwcw9rj71ygoi4qt3zuqacgjhor5q9v?id=${id}&is_children=${is_children}&is_grandchildren=${is_grandchildren}`;
+    const url2 = `https://hook.eu2.make.com/14a8cad6cce8n30dm44nkgiyw9ks8hvj`;
+    
+    console.log("url:", url);
+    
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            console.log('Response body:', data);
 
-    // Funció per actualitzar les dades
-    window.updateChartData = function(newData) {
-      series.data.setAll(newData);
-      xAxis.data.setAll(newData);
-    };
-  });
+            if (data === "Accepted") {
+                console.log("Resposta 'Accepted' rebuda. Fent fetch a url2...");
+                fetch(url2)
+                    .then(res => res.text())
+                    .then(result => console.log('Resposta de url2:', result))
+                    .catch(err => console.error('Error amb fetch a url2:', err));
+                return; // Sortim per evitar seguir amb el codi següent
+            }
+
+            if (/^[a-z0-9]+$/.test(data)) {
+                console.log('Nou ID:', data);
+                if (is_children === true) {
+                    fireWebHook(data, true, true);
+                } else {
+                    fireWebHook(data, true, false);
+                }
+            } else {
+                console.log('O no s\'ha rebut cap nou ID o resposta invàlida:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error.message);
+        });
+}
 </script>
 
 </body>
